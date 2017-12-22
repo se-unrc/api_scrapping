@@ -30,6 +30,28 @@
               type: "array"
               items:
                 $ref: "#/definitions/Pet"
+      post:
+        description: "Creates a new pet in the store. Duplicates are allowed"
+        operationId: "addPet"
+        produces:
+          - "application/json"
+        parameters:
+          -
+            name: "pet"
+            in: "body"
+            description: "Pet to add to the store"
+            required: true
+            schema:
+              $ref: "#/definitions/NewPet"
+        responses:
+          "200":
+            description: "pet response"
+            schema:
+              $ref: "#/definitions/Pet"
+          default:
+            description: "unexpected error"
+            schema:
+              $ref: "#/definitions/ErrorModel"
   definitions:
     Pet:
       type: "object"
@@ -43,4 +65,24 @@
         name:
           type: "string"
         tag:
+          type: "string"
+    NewPet:
+      type: "object"
+      required:
+        - "name"
+      properties:
+        name:
+          type: "string"
+        tag:
+          type: "string"
+    ErrorModel:
+      type: "object"
+      required:
+        - "code"
+        - "message"
+      properties:
+        code:
+          type: "integer"
+          format: "int32"
+        message:
           type: "string"
